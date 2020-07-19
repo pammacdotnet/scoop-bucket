@@ -1,29 +1,31 @@
 {
-    "version": "3.57.1465",
+    "version": "3.57.1470",
     "description": "Unreal Commander. Easy to use file manager.",
     "homepage": "https://x-diesel.com",
     "license": "Freeware",
     "architecture": {
         "64bit": {
-            "url": "http://x-diesel.biz/download/evolution/uncomsetup3.57x64(build1465).exe",
-            "hash": "8f9da89dc303c601b7d4c8745a86a602cedc1a24488ce2b4f10f7f1e054d2b85"
+            "url": "http://x-diesel.biz/download/evolution/uncomsetup3.57x64(build1470).exe",
+            "hash": "ceaf34a532fe4182396fd894ea44c6806d5fcb90b3202495fffda790e46ecd34"
         },
         "32bit": {
-            "url": "http://x-diesel.biz/download/evolution/uncomsetup3.57x32(build1465).exe",
-            "hash": "139187faa36ba37b76f31ac64b93b338e46f721a46a4db53f6e11e6e70d28cd3"
+            "url": "http://x-diesel.biz/download/evolution/uncomsetup3.57x32(build1470).exe",
+            "hash": "5400959efe12cb1c6733321068f48cbe34de05f1d3176eda6d49a50801cbe6aa"
         }
     },
+    "innosetup": true,
     "pre_install": [
         "$file = 'Uncom.ini'",
         "if (-not (Test-Path \"$persist_dir\\$file\" -Type Leaf)) {",
+        "    function replaceVal ($cont, $string, $rep) { return $cont -replace \"^($string=).*$\", \"`${1}$rep\" }",
         "    Write-Host 'No previous configuration found. Creating.' -f Yellow",
         "    $content = Get-Content \"$dir\\$file\"",
-        "    $content = $content -replace '^ViewStyle=.*$', 'ViewStyle=Hard day''s light (by Max Diesel)'",
-        "    $content = $content -replace '^FirstRun=\\d+$', 'FirstRun=0'",
-        "    $content = $content -replace '^ToolbarGraphicsLibrary=.*$', 'ToolbarGraphicsLibrary=Everaldo Coelho''s theme.tgl'",
-        "    $content = $content -replace '^iniDirType=\\d+$', 'iniDirType=0'",
-        "    $content = $content -replace '^NewBuildInform=\\d+$', 'NewBuildInform=0'",
-        "    $content = $content -replace '^NewVersionCheckType=\\d+$', 'NewVersionCheckType=1'",
+        "    $content = replaceVal $content 'ViewStyle' 'Hard day''s light (by Max Diesel)'",
+        "    $content = replaceVal $content 'FirstRun' '0'",
+        "    $content = replaceVal $content 'ToolbarGraphicsLibrary' 'Everaldo Coelho''s theme.tgl'",
+        "    $content = replaceVal $content 'iniDirType' '0'",
+        "    $content = replaceVal $content 'NewBuildInform' '0'",
+        "    $content = replaceVal $content 'NewVersionCheckType' '1'",
         "",
         "    $split = $content.IndexOf('[Settings]')",
         "    $first = $content[0..$split]",
@@ -38,13 +40,16 @@
         "    Invoke-Webrequest 'https://gist.githubusercontent.com/Ash258/e143436e2f9183a650424d635b535e51/raw/Uncom.bar' -o \"$dir\\$file\"",
         "}",
         "@('license.key', 'UncomFTP.ini') | ForEach-Object {",
-        "    if (-not (Test-Path \"$persist_dir\\$_\" -Type Leaf)) {",
-        "        Write-Host 'File' $_ 'does not exists. Creating.' -f Yellow",
-        "        Set-Content \"$dir\\$_\" '' -Encoding Ascii",
-        "    }",
+        "    if (-not (Test-Path \"$persist_dir\\$_\" -Type Leaf)) { Set-Content \"$dir\\$_\" '' -Encoding Ascii }",
         "}"
     ],
-    "innosetup": true,
+    "bin": "Uncom.exe",
+    "shortcuts": [
+        [
+            "Uncom.exe",
+            "Unreal Commander"
+        ]
+    ],
     "persist": [
         "license.key",
         "UncomFTP.ini",
@@ -54,13 +59,6 @@
         "ignorelist.txt",
         "Universal Viewer\\Viewer.ini",
         "Universal Viewer\\ViewerHistory.ini"
-    ],
-    "bin": "Uncom.exe",
-    "shortcuts": [
-        [
-            "Uncom.exe",
-            "Unreal Commander"
-        ]
     ],
     "checkver": {
         "regex": "Unreal Commander v(?<pure>[\\d.]+) \\(build (?<build>\\d+)\\)",
