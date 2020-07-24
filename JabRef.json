@@ -3,7 +3,7 @@
     "description": "",
     "homepage": "http://www.jabref.org/",
     "license": "MIT",
-    "url": "https://www.fosshub.com/JabRef.html?dwl=JabRef-5.0-portable_windows.zip",
+    "url": "https://builds.jabref.org/master/JabRef-5.1-portable_windows.zip",
     "hash": "4f410840f7821e25a09a5d1fa6408045df27bc4bcd8684fd8ab273b4933c08b7",
     "installer": {
         "script": "Expand-7ZipArchive \"$dir\\$fname\" -ExtractDir 'Jabref' -Removal"
