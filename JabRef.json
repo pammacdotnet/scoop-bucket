@@ -19,6 +19,6 @@
         "github": "https://github.com/JabRef/jabref"
     },
     "autoupdate": {
-        "url": "https://www.fosshub.com/JabRef.html?dwl=JabRef-$version-portable_windows.zip"
+        "url": "https://builds.jabref.org/master/JabRef-$version-portable_windows.zip"
     }
 }
